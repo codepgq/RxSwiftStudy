@@ -320,3 +320,42 @@ example("skipUntil") {
 
 
 
+### throttle 
+
+>当发送很多事件时，每隔多少ms取一次事件值
+
+
+
+**使用场景：滑动Slider的时候回产生很多值，当我们并不想处理每次的值，只想在值的变化过程中取一些值**
+
+```swift
+ progressSlider.rx
+            .value.asObservable()
+            .throttle(0.4, scheduler: MainScheduler.instance)
+            .map(progress)
+            .bind(to: progressLabel.rx.text)
+            .disposed(by: bag)
+```
+
+
+
+
+
+### debounce 
+
+> 当上一次的值和下一次的值超出时间间隔之后，就把事件的值发送出来
+
+
+
+**使用场景：避免用户多次点击按钮导致多次请求等类似情况**
+
+```swift
+button.rx
+    .tap.asObservable()
+    .debounce(0.3, scheduler:MainScheduler.instance)
+    .map(btnTapCount)
+    .bind(to: btnLabel.rx.text)
+    .disposed(by: bag)
+```
+
+![filter](/Users/panguoquan/Desktop/博客相关部分/Licecap/filter.gif)
